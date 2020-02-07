@@ -4,15 +4,12 @@
 class AbstractMelonOrder():
     """An abstract base class that other Melon Orders inherit from."""
 
-    def __init__(self, species, qty, country_code, order_type, tax=1):
+    def __init__(self, species, qty):
         """Initialize melon order attributes."""
 
         self.species = species
         self.qty = qty
         self.shipped = False
-        self.country_code = country_code
-        self.order_type = order_type
-        self.tax = tax
 
     def get_total(self):
         """Calculate price, including tax."""
@@ -37,13 +34,9 @@ class DomesticMelonOrder(AbstractMelonOrder):
 
     def __init__(self, species, qty):
         """Initialize melon order attributes."""
-        super().__init__(species, qty, 'US', 'domestic', .08)
-
-        # self.species = species
-        # self.qty = qty
-        # self.shipped = False
-        # self.order_type = "domestic"
-        # self.tax = 0.08
+        super().__init__(species, qty)
+        self.order_type = "domestic"
+        self.tax = 0.08
 
 
 class InternationalMelonOrder(AbstractMelonOrder):
@@ -51,14 +44,10 @@ class InternationalMelonOrder(AbstractMelonOrder):
 
     def __init__(self, species, qty, country_code):
         """Initialize melon order attributes."""
-        super().__init__(species, qty, country_code, 'international', .15)
-
-        # self.species = species
-        # self.qty = qty
-        # self.country_code = country_code
-        # # self.shipped = False
-        # self.order_type = "international"
-        # self.tax = 0.171@B
+        super().__init__(species, qty, country_code)
+        self.country_code = country_code
+        self.order_type = "international"
+        self.tax = .15
 
     def get_country_code(self):
         """Return the country code."""
@@ -81,8 +70,13 @@ class InternationalMelonOrder(AbstractMelonOrder):
 
 
 class GovernmentMelonOrder(AbstractMelonOrder):
-    # false until inspection
-    passed_inspection = False
+
+    def __init__(self, species, qty):
+        """Initialize melon order attributes."""
+        super().__init__(species, qty)
+        self.passed_inspection = False
+        self.tax = 1
+
     # create mark_inspection method
     def mark_inspection(self, bool):
         if bool == 'passed':
